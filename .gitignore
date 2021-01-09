@@ -1,0 +1,8 @@
+node_modules/
+packages/*/.cache/
+packages/*/dist/
+packages/express/db.txt
+*.env
+packages/express/.env.local
+public
+.cache

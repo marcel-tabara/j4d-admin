@@ -1,0 +1,23 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "client": "yarn workspace @j4d-admin/main start",
+    "server": "yarn workspace @j4d-admin/express start",
+    "build": "yarn workspace @j4d-admin/main build",
+    "start": "concurrently --kill-others \"yarn client\" \"yarn server\"",
+    "clean": "lerna clean --yes && lerna exec -- rimraf dist .cache --parallel",
+    "cleanstart": "yarn clean && yarn install && yarn start"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "lerna": "^3.22.1",
+    "rimraf": "^3.0.2"
+  }
+}
