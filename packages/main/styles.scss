@@ -1,3 +1,84 @@
-.container {
-    padding: 0 10% 0 10%;
+.genericContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.generic_link {
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.right {
+  justify-content: flex-end;
+  align-items: center;
+  display: flex;
+}
+
+.left {
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.date-more {
+  display: flex;
+  justify-content: space-between;
+  width: '100%';
+  align-items: center;
+  padding: 1rem;
+}
+
+.commentWrapper {
+  padding-bottom: 3rem;
+}
+
+.vertAlign {
+  display: flex;
+  align-items: center;
+}
+
+.likeStyle {
+  color: #a01b23;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.icon_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 1rem;
+}
+
+div.DraftEditor-root {
+  background-color: white;
+  height: 800px;
+  overflow-y: auto;
+}
+div.DraftEditor-editorContainer,
+div.public-DraftEditor-content {
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .drawer {
+    display: none;
+  }
+}
+
+.noShadow {
+  box-shadow: none !important;
+}
+
+.keywords {
+  display: flex;
+  justify-content: flex-end;
 }
