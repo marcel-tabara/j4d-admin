@@ -1,4 +1,3 @@
-import { loginSelectors } from '@j4d-admin/services';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
@@ -7,14 +6,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import styles from '../../assets/jss/material-dashboard-react/components/sidebarStyle.js';
 
 const useStyles = makeStyles(styles);
 
 const Sidebar = (props) => {
   const classes = useStyles();
-  const authenticated = useSelector(loginSelectors.loginSelector);
   const activeRoute = () => false;
 
   const {
@@ -88,7 +85,7 @@ const Sidebar = (props) => {
 
   const renderAdmin = (
     <List className={classes.list}>
-      {['aFeatures', 'aPosts', 'aCategories'].map((text, index) => {
+      {['aPosts', 'aCategories'].map((text, index) => {
         const listItemClasses = classNames({
           [' ' + classes[color]]: activeRoute(),
         });
@@ -191,10 +188,8 @@ const Sidebar = (props) => {
           }}
         >
           {brand}
-          <div className={classes.sidebarWrapper}>
-            {links}
-            {authenticated && renderAdmin}
-          </div>
+          <div className={classes.sidebarWrapper}>{links}</div>
+          <div className={classes.sidebarWrapper}>{renderAdmin}</div>
           {image !== undefined ? (
             <div
               className={classes.background}

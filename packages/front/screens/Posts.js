@@ -1,7 +1,5 @@
 import {
-  commentActions,
   keywordActions,
-  likeActions,
   postActions,
   postSelectors,
 } from '@j4d-admin/services';
@@ -18,7 +16,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import { navigate } from '@reach/router';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth } from '../hooks/useAuth';
 import { useCategories } from './../hooks/useCategories';
 import { useKeywords } from './../hooks/useKeywords';
 
@@ -30,27 +27,11 @@ const Posts = () => {
   const { categories } = useCategories({});
   const { keywords: allKeywords } = useKeywords();
 
-  useAuth();
-
   useEffect(() => {
     dispatch(
       postActions.handlePosts({
         operation: 'read',
         modelType: 'post',
-        query: {},
-      }),
-    );
-    dispatch(
-      likeActions.handleLikes({
-        operation: 'read',
-        modelType: 'like',
-        query: {},
-      }),
-    );
-    dispatch(
-      commentActions.handleComments({
-        operation: 'read',
-        modelType: 'comment',
         query: {},
       }),
     );
@@ -74,15 +55,7 @@ const Posts = () => {
       );
     console.log('########## posts', posts);
     return posts.map(
-      ({
-        _id,
-        seo,
-        created,
-        updated,
-        category,
-        subcategory,
-        slug = 'aaa-bbb',
-      }) => {
+      ({ _id, seo, created, category, subcategory, slug = 'aaa-bbb' }) => {
         const onTitleClick = useCallback(() => {
           navigate(`/${category}/${subcategory}/${_id}`);
         }, [category, subcategory, slug]);
@@ -118,22 +91,6 @@ const Posts = () => {
             }
           });
           await Promise.all([
-            dispatch(
-              likeActions.handleLikes({
-                operation: 'deleteOne',
-                modelType: 'like',
-                query: { _id },
-              }),
-            ),
-
-            dispatch(
-              commentActions.handleComments({
-                operation: 'deleteMany',
-                modelType: 'comment',
-                query: { _id },
-              }),
-            ),
-
             dispatch(
               postActions.handlePosts({
                 operation: 'deleteOne',

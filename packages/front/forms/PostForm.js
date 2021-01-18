@@ -41,7 +41,7 @@ const PostForm = ({ id }) => {
     subcategory: record.subcategory,
     updated: record.updated,
     _id: record._id,
-    slug: record.slug,
+    slug: record.slug || '',
   });
 
   const { categories } = useCategories({});
@@ -103,7 +103,7 @@ const PostForm = ({ id }) => {
     .enumIds;
 
   const getSlug = () =>
-    (formData.seo.title || '')
+    formData.seo.title
       //.replace(/[^\w\s]/gi, '')
       .split(' ')
       .join('-')
@@ -119,6 +119,9 @@ const PostForm = ({ id }) => {
     //   upsertKeywords({ formData })
     // }
 
+    console.log('########## formData111', formData);
+    console.log('########## getSlug()', getSlug());
+
     dispatch(
       postActions.handlePosts({
         operation: formData._id || false ? 'update' : 'create',
@@ -127,13 +130,15 @@ const PostForm = ({ id }) => {
           ...formData,
           created: formData._id ? formData.created : Date.now(),
           updated: Date.now(),
-          slug: getSlug(),
+          slug: getSlug() || '',
         },
         query: { _id: formData._id },
       }),
     );
     navigate('/aPosts');
   };
+
+  console.log('########## formData', formData);
 
   return (
     <div>
@@ -190,7 +195,7 @@ const PostForm = ({ id }) => {
       </FormControl>
       <GenericForm
         onChange={(data) => onChange(data, 'seo')}
-        type={'nextSeo'}
+        type={'gatsbyNextSeo_BlogJsonLdProps'}
         initialData={formData.seo}
       />
       <SimpleMDE
