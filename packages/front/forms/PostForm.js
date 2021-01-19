@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PostForm = ({ id }) => {
+  console.log('########## PostForm');
   const classes = useStyles();
   const dispatch = useDispatch();
   const { keywords } = useKeywords();
@@ -132,8 +133,9 @@ const PostForm = ({ id }) => {
         query: { _id: formData._id },
       }),
     );
-    navigate('/aPosts');
+    navigate('/');
   };
+
   return (
     <div>
       <FormControl className={classes.formControl}>

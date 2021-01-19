@@ -2,14 +2,12 @@ import { categoryActions, categorySelectors } from '@j4d-admin/services';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import { navigate } from '@reach/router';
+import Form from '@rjsf/material-ui';
 import React from 'react';
-import { withTheme } from 'react-jsonschema-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Theme as MuiTheme } from 'rjsf-material-ui';
 
 const Categories = () => {
   const dispatch = useDispatch();
-  const Form = withTheme(MuiTheme);
   const categories = useSelector(categorySelectors.categorySelector) || [];
 
   const schema = {

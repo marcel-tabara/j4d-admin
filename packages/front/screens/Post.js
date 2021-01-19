@@ -35,7 +35,7 @@ const Post = ({ id }) => {
     title,
     content,
     datetime,
-    _id: postId,
+    _id,
     category,
     subcategory,
     postMetaKeywords = [],
@@ -43,7 +43,7 @@ const Post = ({ id }) => {
 
   const renderPost = () => {
     return (
-      <Card key={postId} className="noShadow">
+      <Card key={_id} className="noShadow">
         <CardHeader color="primary" className="noShadow">
           <h4 className={classes.cardTitleWhite}>{title}</h4>
           <Breadcrumb category={category} subcategory={subcategory} />

@@ -14,35 +14,35 @@ import { DeleteRounded } from '@material-ui/icons';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import EditIcon from '@material-ui/icons/Edit';
 import { navigate } from '@reach/router';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useKeywords } from '../hooks/useKeywords';
 
 const addNew = () => navigate('/postform');
 
-const AdminPostLists = () => {
+const AdminPostList = () => {
   console.log('########## aPosts');
   const dispatch = useDispatch();
   const posts = useSelector(postSelectors.postSelector) || [];
   const { keywords: allKeywords = [] } = useKeywords();
   console.log('########## allKeywords', allKeywords);
 
-  useEffect(() => {
-    dispatch(
-      postActions.handlePosts({
-        operation: 'read',
-        modelType: 'post',
-        query: {},
-      }),
-    );
-    dispatch(
-      keywordActions.handleKeywords({
-        operation: 'read',
-        modelType: 'keyword',
-        query: {},
-      }),
-    );
-  }, []);
+  // useEffect(() => {
+  //   dispatch(
+  //     postActions.handlePosts({
+  //       operation: 'read',
+  //       modelType: 'post',
+  //       query: {},
+  //     }),
+  //   );
+  //   dispatch(
+  //     keywordActions.handleKeywords({
+  //       operation: 'read',
+  //       modelType: 'keyword',
+  //       query: {},
+  //     }),
+  //   );
+  // }, [posts.length]);
   console.log('########## posts', posts);
   const renderPosts = () => {
     if (posts.length === 0) {
@@ -61,9 +61,7 @@ const AdminPostLists = () => {
           navigate(`/${category}/${subcategory}/${_id}`);
         }, [category, subcategory, slug]);
 
-        const onEdit = useCallback(() => {
-          navigate(`/postform/${_id}`);
-        }, [slug]);
+        const onEdit = () => navigate(`/postform/${_id}`);
 
         const onDelete = async (_id) => {
           const post = posts.find((post) => post._id === _id);
@@ -132,7 +130,7 @@ const AdminPostLists = () => {
       },
     );
   };
-
+  console.log('########## hhh');
   return (
     <>
       <div className="icon_wrapper">
@@ -152,4 +150,4 @@ const AdminPostLists = () => {
   );
 };
 
-export default AdminPostLists;
+export default AdminPostList;
