@@ -4,10 +4,10 @@ import Grid from '@material-ui/core/Grid';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import Pagination from '../components/Pagination';
-import PostList from '../components/PostList';
 import { useCategories } from '../hooks/useCategories';
 import { usePosts } from '../hooks/usePosts';
 import { useSearch } from '../hooks/useSearch';
+import PostList from '../screens/PostList';
 
 const limit = 20;
 

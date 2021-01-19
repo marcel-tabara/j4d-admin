@@ -9,7 +9,9 @@ const Post = React.lazy(() => import('@j4d-admin/front/screens/Post'));
 const CategoriesForm = React.lazy(() =>
   import('@j4d-admin/front/forms/CategoriesForm'),
 );
-const Posts = React.lazy(() => import('@j4d-admin/front/screens/Posts'));
+const Posts = React.lazy(() =>
+  import('@j4d-admin/front/screens/AdminPostLists'),
+);
 
 const routes = () => {
   return (

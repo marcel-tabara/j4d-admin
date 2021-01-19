@@ -16,11 +16,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import { navigate } from '@reach/router';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useKeywords } from './../hooks/useKeywords';
+import { useKeywords } from '../hooks/useKeywords';
 
 const addNew = () => navigate('/postform');
 
-const Posts = () => {
+const AdminPostLists = () => {
+  console.log('########## aPosts');
   const dispatch = useDispatch();
   const posts = useSelector(postSelectors.postSelector) || [];
   const { keywords: allKeywords = [] } = useKeywords();
@@ -151,4 +152,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default AdminPostLists;

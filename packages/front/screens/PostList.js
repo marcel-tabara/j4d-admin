@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { navigate } from '@reach/router';
@@ -5,8 +6,8 @@ import React from 'react';
 import Card from '../comp/Card/Card.js';
 import CardBody from '../comp/Card/CardBody.js';
 import CardHeader from '../comp/Card/CardHeader.js';
-import Breadcrumb from './Breadcrumb';
-import Keywords from './Keywords';
+import Breadcrumb from '../components/Breadcrumb';
+import Keywords from '../components/Keywords';
 
 const styles = {
   typo: {
@@ -48,7 +49,8 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const PostList = ({ posts, categories }) => {
+const PostList = ({ posts }) => {
+  console.log('########## posts-PostList', posts);
   const classes = useStyles();
   const renderPosts = () => {
     return posts.map((post) => {
