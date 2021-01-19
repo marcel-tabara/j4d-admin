@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { keywordActions, postActions } from '@j4d-admin/services';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -30,7 +31,6 @@ const PostForm = ({ id }) => {
   const dispatch = useDispatch();
   const { keywords } = useKeywords();
   const { record } = usePostForm({ id });
-  console.log('########## record', record);
 
   const [formData, setFormData] = useState({
     category: record.category,
@@ -119,9 +119,6 @@ const PostForm = ({ id }) => {
     //   upsertKeywords({ formData })
     // }
 
-    console.log('########## formData111', formData);
-    console.log('########## getSlug()', getSlug());
-
     dispatch(
       postActions.handlePosts({
         operation: formData._id || false ? 'update' : 'create',
@@ -137,9 +134,6 @@ const PostForm = ({ id }) => {
     );
     navigate('/aPosts');
   };
-
-  console.log('########## formData', formData);
-
   return (
     <div>
       <FormControl className={classes.formControl}>
@@ -167,7 +161,7 @@ const PostForm = ({ id }) => {
           value={formData.subcategory}
           onChange={(e) => onChange(e.target.value, 'subcategory')}
         >
-          {subcats.map((subcat) => {
+          {(subcats || ['']).map((subcat) => {
             return (
               <MenuItem value={subcat} key={subcat}>
                 {subcat}

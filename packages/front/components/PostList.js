@@ -57,8 +57,7 @@ const PostList = ({ posts, categories }) => {
         title,
         postUrl,
         longDescription,
-        imageName,
-        datetime,
+        created,
         category,
         subcategory,
         keywords,
@@ -72,6 +71,7 @@ const PostList = ({ posts, categories }) => {
           <CardHeader color="primary">
             <Link className="generic_link" onClick={onTitleClick}>
               <h4 className={classes.cardTitleWhite}>{title}</h4>
+              <h5 className={classes.cardTitleWhite}>{created}</h5>
             </Link>
             <Breadcrumb category={category} subcategory={subcategory} />
           </CardHeader>

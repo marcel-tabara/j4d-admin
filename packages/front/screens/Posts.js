@@ -16,7 +16,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import { navigate } from '@reach/router';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCategories } from './../hooks/useCategories';
 import { useKeywords } from './../hooks/useKeywords';
 
 const addNew = () => navigate('/postform');
@@ -24,8 +23,8 @@ const addNew = () => navigate('/postform');
 const Posts = () => {
   const dispatch = useDispatch();
   const posts = useSelector(postSelectors.postSelector) || [];
-  const { categories } = useCategories({});
-  const { keywords: allKeywords } = useKeywords();
+  const { keywords: allKeywords = [] } = useKeywords();
+  console.log('########## allKeywords', allKeywords);
 
   useEffect(() => {
     dispatch(
@@ -43,9 +42,9 @@ const Posts = () => {
       }),
     );
   }, []);
-
+  console.log('########## posts', posts);
   const renderPosts = () => {
-    if (posts.length === 0)
+    if (posts.length === 0) {
       return (
         <TableRow>
           <TableCell component="th" scope="row">
@@ -53,7 +52,8 @@ const Posts = () => {
           </TableCell>
         </TableRow>
       );
-    console.log('########## posts', posts);
+    }
+
     return posts.map(
       ({ _id, seo, created, category, subcategory, slug = 'aaa-bbb' }) => {
         const onTitleClick = useCallback(() => {
@@ -66,9 +66,10 @@ const Posts = () => {
 
         const onDelete = async (_id) => {
           const post = posts.find((post) => post._id === _id);
-          const { keywords } = post;
-          (keywords || []).map((keyword) => {
+          const { keywords = [] } = post;
+          keywords.map((keyword) => {
             const data = allKeywords.find((e) => e.name === keyword.name);
+            console.log('########## data', data);
             if (data) {
               if (data.count >= 2) {
                 dispatch(
