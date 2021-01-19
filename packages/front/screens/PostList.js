@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { navigate } from '@reach/router';
 import React from 'react';
+import ReactMarkdownWithHtml from 'react-markdown/with-html';
 import Card from '../comp/Card/Card.js';
 import CardBody from '../comp/Card/CardBody.js';
 import CardHeader from '../comp/Card/CardHeader.js';
@@ -55,10 +55,10 @@ const PostList = ({ posts }) => {
   const renderPosts = () => {
     return posts.map((post) => {
       const {
-        _id: postId,
-        title,
-        postUrl,
-        longDescription,
+        _id,
+        slug,
+        seo,
+        markdown,
         created,
         category,
         subcategory,
@@ -66,20 +66,24 @@ const PostList = ({ posts }) => {
       } = post;
 
       const onTitleClick = () =>
-        navigate(`/${category}/${subcategory}/${postUrl}`);
+        navigate(`/${category}/${subcategory}/${slug}`);
 
       return (
-        <Card key={postId}>
+        <Card key={_id}>
           <CardHeader color="primary">
             <Link className="generic_link" onClick={onTitleClick}>
-              <h4 className={classes.cardTitleWhite}>{title}</h4>
-              <h5 className={classes.cardTitleWhite}>{created}</h5>
+              <h4 className={classes.cardTitleWhite}>{seo.title}</h4>
             </Link>
             <Breadcrumb category={category} subcategory={subcategory} />
+            <h5 className={classes.cardTitleWhite}>
+              {new Date(created).toDateString()}
+            </h5>
           </CardHeader>
           <CardBody>
             <div>
-              <div>{longDescription}</div>
+              <ReactMarkdownWithHtml allowDangerousHtml>
+                {markdown}
+              </ReactMarkdownWithHtml>
               <div className="keywords">
                 <Keywords keywords={keywords} />
               </div>

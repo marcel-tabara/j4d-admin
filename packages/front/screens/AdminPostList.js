@@ -21,11 +21,9 @@ import { useKeywords } from '../hooks/useKeywords';
 const addNew = () => navigate('/postform');
 
 const AdminPostList = () => {
-  console.log('########## aPosts');
   const dispatch = useDispatch();
   const posts = useSelector(postSelectors.postSelector) || [];
   const { keywords: allKeywords = [] } = useKeywords();
-  console.log('########## allKeywords', allKeywords);
 
   // useEffect(() => {
   //   dispatch(
@@ -68,7 +66,6 @@ const AdminPostList = () => {
           const { keywords = [] } = post;
           keywords.map((keyword) => {
             const data = allKeywords.find((e) => e.name === keyword.name);
-            console.log('########## data', data);
             if (data) {
               if (data.count >= 2) {
                 dispatch(
@@ -130,7 +127,7 @@ const AdminPostList = () => {
       },
     );
   };
-  console.log('########## hhh');
+
   return (
     <>
       <div className="icon_wrapper">
