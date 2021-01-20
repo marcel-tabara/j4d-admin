@@ -70,6 +70,8 @@ const PostForm = ({ id }) => {
     }
   };
 
+  console.log('########## catList', catList);
+
   const upsertKeywords = ({ formData }) => {
     (formData.postMetaKeywords || []).map((k) => {
       const sanitizedKeyword = sanitizeString(k.name);
@@ -104,11 +106,14 @@ const PostForm = ({ id }) => {
   const showKeywords = () =>
     keywords.map((keyword) => keyword.name.concat(', '));
 
-  const onChange = (data, type) => setFormData({ ...formData, [type]: data });
+  const onChange = (data, type) =>
+    setFormData({
+      ...formData,
+      [type]: data,
+    });
 
   const subcats = (getSubcategory(formData.category) || { enumIds: [] })
     .enumIds;
-
   const getSlug = () =>
     formData.seo.title
       //.replace(/[^\w\s]/gi, '')
@@ -142,31 +147,34 @@ const PostForm = ({ id }) => {
     navigate('/');
   };
 
+  console.log('########## subcats', subcats);
   return (
     <div>
       <div>
-        <Accordion key="accordion_cat_subcat_priority">
+        <Accordion key="accordion_cat_subcat_prior">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="cat_subcat_prior-content"
+            id="cat_subcat_priority-header"
           >
             <Typography className={classes.heading}>
-              category / Subcategory / Provider
+              Category / Subcategory / Provider
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <InputLabel id="cat_subcat_prior-category-label">
+                Category
+              </InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="cat_subcat_prior-category-select-label"
+                id="cat_subcat_prior-category-select"
                 value={formData.category}
                 onChange={(e) => onChange(e.target.value, 'category')}
               >
                 {catList.map((cat) => {
                   return (
-                    <MenuItem value={cat} key={cat}>
+                    <MenuItem value={cat} key={`category_${cat}`}>
                       {cat}
                     </MenuItem>
                   );
@@ -174,16 +182,18 @@ const PostForm = ({ id }) => {
               </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">SubCategory</InputLabel>
+              <InputLabel id="cat_subcat_prior-subcategory-label">
+                SubCategory
+              </InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="cat_subcat_prior-subcategory-select-label"
+                id="cat_subcat_prior-subcategory-select"
                 value={formData.subcategory}
                 onChange={(e) => onChange(e.target.value, 'subcategory')}
               >
-                {(subcats || ['']).map((subcat) => {
+                {subcats.map((subcat) => {
                   return (
-                    <MenuItem value={subcat} key={subcat}>
+                    <MenuItem value={subcat} key={`subcategory_${subcat}`}>
                       {subcat}
                     </MenuItem>
                   );
@@ -191,17 +201,19 @@ const PostForm = ({ id }) => {
               </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Prority</InputLabel>
+              <InputLabel id="cat_subcat_prior-priority-select-label">
+                Prority
+              </InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={formData.priority || 1}
+                labelId="cat_subcat_prior-priority-select-label"
+                id="cat_subcat_prior-priority-select"
+                value={formData.priority}
                 onChange={(e) => onChange(e.target.value, 'priority')}
               >
                 {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map(
                   (p) => {
                     return (
-                      <MenuItem value={p} key={p}>
+                      <MenuItem value={p} key={`priority_${p}`}>
                         {p}
                       </MenuItem>
                     );
@@ -214,8 +226,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_AllSeoProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_AllSeoProps_panel-content"
+            id="gatsbyNextSeo_AllSeoProps_panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_AllSeoProps
@@ -232,8 +244,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_CourseJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_CourseJsonLdProps-panel-content"
+            id="gatsbyNextSeo_CourseJsonLdProps-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_CourseJsonLdProps
@@ -250,8 +262,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_FAQJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_FAQJsonLdProps-panel-content"
+            id="gatsbyNextSeo_FAQJsonLdProps-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_FAQJsonLdProps
@@ -268,8 +280,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_LogoJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_LogoJsonLdProps-panel-content"
+            id="gatsbyNextSeo_LogoJsonLdProps-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_LogoJsonLdProps
@@ -286,8 +298,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_ProductJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_ProductJsonLdProps-panel-content"
+            id="gatsbyNextSeo_ProductJsonLdProps-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_ProductJsonLdProps
@@ -304,8 +316,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_SocialProfileJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_SocialProfileJsonLdProps-panel-content"
+            id="gatsbyNextSeo_SocialProfileJsonLdProps-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_SocialProfileJsonLdProps
@@ -322,8 +334,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_LocalBusinessAddress">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_LocalBusinessAddress-panel-content"
+            id="gatsbyNextSeo_LocalBusinessAddress-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_LocalBusinessAddress
@@ -340,8 +352,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_CorporateContactJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_CorporateContactJsonLdProps-panel-content"
+            id="gatsbyNextSeo_CorporateContactJsonLdProps-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_CorporateContactJsonLdProps
@@ -358,8 +370,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_BreadcrumbJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_BreadcrumbJsonLdProps-panel-content"
+            id="gatsbyNextSeo_BreadcrumbJsonLdProps-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_BreadcrumbJsonLdProps
@@ -376,8 +388,8 @@ const PostForm = ({ id }) => {
         <Accordion key="accordion_gatsbyNextSeo_BlogJsonLdProps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="gatsbyNextSeo_BlogJsonLdProp-panel-content"
+            id="gatsbyNextSeo_BlogJsonLdProp-panel-header"
           >
             <Typography className={classes.heading}>
               gatsbyNextSeo_BlogJsonLdProps
@@ -391,24 +403,15 @@ const PostForm = ({ id }) => {
             />
           </AccordionDetails>
         </Accordion>
-        <Accordion key="accordion_markdown">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography className={classes.heading}>markdown</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <SimpleMDE
-              value={formData.markdown}
-              onChange={(data) => onChange(data, 'markdown')}
-              height="500"
-            />
-          </AccordionDetails>
-        </Accordion>
       </div>
 
+      <h2>Markdown</h2>
+      <SimpleMDE
+        value={formData.markdown}
+        onChange={(data) => onChange(data, 'markdown')}
+        height="500"
+        width="1200"
+      />
       <button
         variant="contained"
         color="primary"
