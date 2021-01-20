@@ -1,72 +1,37 @@
-import {
-  commentActions,
-  commentSelectors,
-  likeActions,
-  likeSelectors,
-  postActions,
-  postSelectors,
-} from '@j4d-admin/services'
-import get from 'lodash/get'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { postActions, postSelectors } from '@j4d-admin/services';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const usePost = ({ id }) => {
-  const dispatch = useDispatch()
-  const post = useSelector(postSelectors.postByPostUrlSelector)(id) || {}
-  const { _id: postId, datetime } = post
+  const dispatch = useDispatch();
+  const post = useSelector(postSelectors.postBySlugSelector)(id) || {};
+  // const { _id, created } = post;
 
-  const likes = get(
-    useSelector(likeSelectors.likesByPostIdSelector)(postId),
-    '[0]',
-    {
-      postId,
-      count: 0,
-    },
-  )
-  const comments =
-    useSelector(commentSelectors.commentsByPostIdSelector)(postId) || []
-
-  useEffect(() => {
-    if (!postId) {
-      dispatch(
-        postActions.handlePosts({
-          operation: 'read',
-          modelType: 'post',
-          query: { postUrl: id },
-        }),
-      )
-    } else {
-      dispatch(
-        likeActions.handleLikes({
-          operation: 'read',
-          modelType: 'like',
-          query: { postId },
-        }),
-      )
-      dispatch(
-        commentActions.handleComments({
-          operation: 'read',
-          modelType: 'comment',
-          query: { postId },
-        }),
-      )
-      dispatch(
-        postActions.handlePosts({
-          operation: 'read',
-          modelType: 'post',
-          query: {
-            datetime: {
-              $lte: datetime,
-            },
-          },
-        }),
-      )
-    }
-  }, [postId, datetime])
+  // useEffect(() => {
+  //   if (!_id) {
+  //     dispatch(
+  //       postActions.handlePosts({
+  //         operation: 'read',
+  //         modelType: 'post',
+  //         query: { _id },
+  //       }),
+  //     );
+  //   } else {
+  //     dispatch(
+  //       postActions.handlePosts({
+  //         operation: 'read',
+  //         modelType: 'post',
+  //         query: {
+  //           created: {
+  //             $lte: created,
+  //           },
+  //         },
+  //       }),
+  //     );
+  //   }
+  // }, [_id, created]);
 
   return {
     post,
-    likes,
-    comments,
-  }
-}
+  };
+};

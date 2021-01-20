@@ -96,6 +96,7 @@ const AdminPostList = () => {
               }),
             ),
           ]);
+          navigate('/');
         };
 
         return (

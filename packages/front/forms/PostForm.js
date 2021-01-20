@@ -20,14 +20,23 @@ import { useCategories } from '../hooks/useCategories';
 import { useKeywords } from '../hooks/useKeywords';
 import { usePostForm } from '../hooks/usePostForm';
 import { sanitizeString } from '../utils/common';
+import { TextField } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 250,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '90%',
+      padding: 0,
+      margin: 0,
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 250,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
   },
 }));
 
@@ -35,23 +44,25 @@ const PostForm = ({ id }) => {
   console.log('########## PostForm');
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { categories } = useCategories({});
   const { keywords } = useKeywords();
   const { record } = usePostForm({ id });
 
   const [formData, setFormData] = useState({
-    category: record.category,
-    created: record.created,
-    markdown: record.markdown,
-    priority: record.priority,
+    category: record.category || '',
+    created: record.created || new Date(),
+    markdown: record.markdown || '',
+    priority: record.priority || '',
     seo: record.seo,
-    subcategory: record.subcategory,
-    updated: record.updated,
+    subcategory: record.subcategory || '',
+    updated: record.updated || new Date(),
     _id: record._id,
     slug: record.slug || '',
+    title: record.title || '',
+    description: record.description || '',
   });
   console.log('########## formData', formData);
 
-  const { categories } = useCategories({});
   const catList = categories.map((cat) => cat.categoryId);
   const getSubcategory = (catId) => {
     if (catId) {
@@ -69,8 +80,6 @@ const PostForm = ({ id }) => {
       };
     }
   };
-
-  console.log('########## catList', catList);
 
   const upsertKeywords = ({ formData }) => {
     (formData.postMetaKeywords || []).map((k) => {
@@ -115,7 +124,7 @@ const PostForm = ({ id }) => {
   const subcats = (getSubcategory(formData.category) || { enumIds: [] })
     .enumIds;
   const getSlug = () =>
-    formData.seo.title
+    formData.title
       //.replace(/[^\w\s]/gi, '')
       .split(' ')
       .join('-')
@@ -147,9 +156,8 @@ const PostForm = ({ id }) => {
     navigate('/');
   };
 
-  console.log('########## subcats', subcats);
   return (
-    <div>
+    <div className={classes.root}>
       <div>
         <Accordion key="accordion_cat_subcat_prior">
           <AccordionSummary
@@ -158,7 +166,7 @@ const PostForm = ({ id }) => {
             id="cat_subcat_priority-header"
           >
             <Typography className={classes.heading}>
-              Category / Subcategory / Provider
+              Category - Subcategory - Priority
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -236,7 +244,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_AllSeoProps'}
+              type="gatsbyNextSeo_AllSeoProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -254,7 +262,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_AllSeoProps'}
+              type="gatsbyNextSeo_AllSeoProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -272,7 +280,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_FAQJsonLdProps'}
+              type="gatsbyNextSeo_FAQJsonLdProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -290,7 +298,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_LogoJsonLdProps'}
+              type="gatsbyNextSeo_LogoJsonLdProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -308,7 +316,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_ProductJsonLdProps'}
+              type="gatsbyNextSeo_ProductJsonLdProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -326,7 +334,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_SocialProfileJsonLdProps'}
+              type="gatsbyNextSeo_SocialProfileJsonLdProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -344,7 +352,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_LocalBusinessAddress'}
+              type="gatsbyNextSeo_LocalBusinessAddress"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -362,7 +370,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_CorporateContactJsonLdProps'}
+              type="gatsbyNextSeo_CorporateContactJsonLdProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -380,7 +388,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_BreadcrumbJsonLdProps'}
+              type="gatsbyNextSeo_BreadcrumbJsonLdProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -398,7 +406,7 @@ const PostForm = ({ id }) => {
           <AccordionDetails>
             <GenericForm
               onChange={(data) => onChange(data, 'seo')}
-              type={'gatsbyNextSeo_BlogJsonLdProps'}
+              type="gatsbyNextSeo_BlogJsonLdProps"
               initialData={formData.seo}
             />
           </AccordionDetails>
@@ -406,6 +414,28 @@ const PostForm = ({ id }) => {
       </div>
 
       <h2>Markdown</h2>
+      <div className="paddTopBott">
+        <TextField
+          required
+          id="standard-required"
+          label="Title"
+          value={formData.title}
+          onChange={(e) => onChange(e.target.value, 'title')}
+          variant="outlined"
+        />
+      </div>
+      <div className="paddTopBott">
+        <TextField
+          id="filled-multiline-flexible"
+          label="Description"
+          multiline
+          rowsMax={40}
+          value={formData.description}
+          onChange={(e) => onChange(e.target.value, 'description')}
+          variant="outlined"
+          width={1200}
+        />
+      </div>
       <SimpleMDE
         value={formData.markdown}
         onChange={(data) => onChange(data, 'markdown')}

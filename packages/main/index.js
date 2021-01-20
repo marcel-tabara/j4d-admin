@@ -11,20 +11,21 @@ import './assets/css/material-dashboard-react.css';
 import Main from './screens/Main';
 
 const theme = createMuiTheme({});
-const notesStore = store();
-notesStore.dispatch(
+const j4dStore = store();
+
+j4dStore.dispatch(
   categoryActions.handleCategories({
     operation: 'read',
     modelType: 'category',
     query: {},
   }),
 );
-notesStore.dispatch(
+j4dStore.dispatch(
   postActions.getTotalsByCategory({
     operation: 'totalsByCategory',
   }),
 );
-notesStore.dispatch(
+j4dStore.dispatch(
   postActions.handlePosts({
     operation: 'read',
     modelType: 'post',
@@ -37,7 +38,7 @@ notesStore.dispatch(
 );
 
 render(
-  <Provider store={notesStore}>
+  <Provider store={j4dStore}>
     <ThemeProvider theme={theme}>
       <Container maxWidth="xl">
         <Main />

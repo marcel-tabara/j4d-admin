@@ -63,6 +63,8 @@ const PostList = ({ posts }) => {
         category,
         subcategory,
         keywords,
+        title,
+        description,
       } = post;
 
       const onTitleClick = () =>
@@ -72,7 +74,7 @@ const PostList = ({ posts }) => {
         <Card key={_id}>
           <CardHeader color="primary">
             <Link className="generic_link" onClick={onTitleClick}>
-              <h4 className={classes.cardTitleWhite}>{seo.title}</h4>
+              <h4 className={classes.cardTitleWhite}>{title}</h4>
             </Link>
             <Breadcrumb category={category} subcategory={subcategory} />
             <h5 className={classes.cardTitleWhite}>
@@ -82,7 +84,7 @@ const PostList = ({ posts }) => {
           <CardBody>
             <div>
               <ReactMarkdownWithHtml allowDangerousHtml>
-                {markdown}
+                {description}
               </ReactMarkdownWithHtml>
               <div className="keywords">
                 <Keywords keywords={keywords} />

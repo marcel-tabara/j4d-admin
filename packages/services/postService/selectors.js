@@ -11,6 +11,10 @@ export const postByIdSelector = createSelector([posts], (res) => (key) =>
   res.find((e) => e._id.toLowerCase() === key.toLowerCase()),
 );
 
+export const postBySlugSelector = createSelector([posts], (res) => (key) =>
+  res.find((e) => e.slug.toLowerCase() === key.toLowerCase()),
+);
+
 export const postByCat = createSelector([posts], (res) => (catId) =>
   res.filter((e) => e.category.toLowerCase() === catId.toLowerCase()),
 );

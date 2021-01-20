@@ -30,37 +30,12 @@
   padding: 1rem;
 }
 
-.commentWrapper {
-  padding-bottom: 3rem;
-}
-
-.vertAlign {
-  display: flex;
-  align-items: center;
-}
-
-.likeStyle {
-  color: #a01b23;
-  cursor: pointer;
-  vertical-align: middle;
-}
-
 .icon_wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   padding: 1rem;
-}
-
-div.DraftEditor-root {
-  background-color: white;
-  height: 800px;
-  overflow-y: auto;
-}
-div.DraftEditor-editorContainer,
-div.public-DraftEditor-content {
-  height: 100%;
 }
 
 .row {
@@ -81,4 +56,9 @@ div.public-DraftEditor-content {
 .keywords {
   display: flex;
   justify-content: flex-end;
+}
+
+.paddTopBott {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
