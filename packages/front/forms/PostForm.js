@@ -21,27 +21,26 @@ import { useKeywords } from '../hooks/useKeywords';
 import { usePostForm } from '../hooks/usePostForm';
 import { sanitizeString } from '../utils/common';
 import { TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import SeoWidget from '../components/SeoWidget';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
     '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '90%',
-      padding: 0,
       margin: 0,
+      width: '100%',
     },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 250,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
+    '& .MuiFormControl-root': {
+      margin: 0,
+      width: '100%',
     },
   },
 }));
 
 const PostForm = ({ id }) => {
-  console.log('########## PostForm');
   const classes = useStyles();
   const dispatch = useDispatch();
   const { categories } = useCategories({});
@@ -170,7 +169,7 @@ const PostForm = ({ id }) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.root}>
               <InputLabel id="cat_subcat_prior-category-label">
                 Category
               </InputLabel>
@@ -189,7 +188,7 @@ const PostForm = ({ id }) => {
                 })}
               </Select>
             </FormControl>
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.root}>
               <InputLabel id="cat_subcat_prior-subcategory-label">
                 SubCategory
               </InputLabel>
@@ -208,7 +207,7 @@ const PostForm = ({ id }) => {
                 })}
               </Select>
             </FormControl>
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.root}>
               <InputLabel id="cat_subcat_prior-priority-select-label">
                 Prority
               </InputLabel>
@@ -231,189 +230,11 @@ const PostForm = ({ id }) => {
             </FormControl>
           </AccordionDetails>
         </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_AllSeoProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_AllSeoProps_panel-content"
-            id="gatsbyNextSeo_AllSeoProps_panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_AllSeoProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_AllSeoProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_CourseJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_CourseJsonLdProps-panel-content"
-            id="gatsbyNextSeo_CourseJsonLdProps-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_CourseJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_AllSeoProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_FAQJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_FAQJsonLdProps-panel-content"
-            id="gatsbyNextSeo_FAQJsonLdProps-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_FAQJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_FAQJsonLdProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_LogoJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_LogoJsonLdProps-panel-content"
-            id="gatsbyNextSeo_LogoJsonLdProps-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_LogoJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_LogoJsonLdProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_ProductJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_ProductJsonLdProps-panel-content"
-            id="gatsbyNextSeo_ProductJsonLdProps-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_ProductJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_ProductJsonLdProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_SocialProfileJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_SocialProfileJsonLdProps-panel-content"
-            id="gatsbyNextSeo_SocialProfileJsonLdProps-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_SocialProfileJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_SocialProfileJsonLdProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_LocalBusinessAddress">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_LocalBusinessAddress-panel-content"
-            id="gatsbyNextSeo_LocalBusinessAddress-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_LocalBusinessAddress
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_LocalBusinessAddress"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_CorporateContactJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_CorporateContactJsonLdProps-panel-content"
-            id="gatsbyNextSeo_CorporateContactJsonLdProps-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_CorporateContactJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_CorporateContactJsonLdProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_BreadcrumbJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_BreadcrumbJsonLdProps-panel-content"
-            id="gatsbyNextSeo_BreadcrumbJsonLdProps-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_BreadcrumbJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_BreadcrumbJsonLdProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion key="accordion_gatsbyNextSeo_BlogJsonLdProps">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="gatsbyNextSeo_BlogJsonLdProp-panel-content"
-            id="gatsbyNextSeo_BlogJsonLdProp-panel-header"
-          >
-            <Typography className={classes.heading}>
-              gatsbyNextSeo_BlogJsonLdProps
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <GenericForm
-              onChange={(data) => onChange(data, 'seo')}
-              type="gatsbyNextSeo_BlogJsonLdProps"
-              initialData={formData.seo}
-            />
-          </AccordionDetails>
-        </Accordion>
+        <SeoWidget onChange={onChange} formData={formData} />
       </div>
-
-      <h2>Markdown</h2>
+      <div className="paddTopBott">
+        <h3>Markdown</h3>
+      </div>
       <div className="paddTopBott">
         <TextField
           required
@@ -442,7 +263,7 @@ const PostForm = ({ id }) => {
         height="500"
         width="1200"
       />
-      <button
+      <Button
         variant="contained"
         color="primary"
         type="submit"
@@ -450,7 +271,7 @@ const PostForm = ({ id }) => {
         style={{ marginTop: '2rem' }}
       >
         Submit
-      </button>
+      </Button>
     </div>
   );
 };
