@@ -10,7 +10,6 @@ import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { GenericForm } from '@mtutils/genericform';
 import { navigate } from '@reach/router';
 import 'easymde/dist/easymde.min.css';
 import React, { useState } from 'react';
@@ -22,7 +21,8 @@ import { usePostForm } from '../hooks/usePostForm';
 import { sanitizeString } from '../utils/common';
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import SeoWidget from '../components/SeoWidget';
+import { GatsbyNextSeoWidget } from '../components/GatsbyNextSeoWidget';
+import { ReactHelmetSeoWidget } from '../components/ReactHelmetSeoWidget';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -230,7 +230,8 @@ const PostForm = ({ id }) => {
             </FormControl>
           </AccordionDetails>
         </Accordion>
-        <SeoWidget onChange={onChange} formData={formData} />
+        {/* <GatsbyNextSeoWidget onChange={onChange} formData={formData} /> */}
+        <ReactHelmetSeoWidget onChange={onChange} formData={formData} />
       </div>
       <div className="paddTopBott">
         <h3>Markdown</h3>

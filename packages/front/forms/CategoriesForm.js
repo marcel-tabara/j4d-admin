@@ -5,6 +5,7 @@ import { navigate } from '@reach/router';
 import Form from '@rjsf/material-ui';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { GenericFormSchemas } from '@mtutils/genericform';
 
 const Categories = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,12 @@ const Categories = () => {
           type: 'object',
           required: ['categoryTitle'],
           properties: {
+            seo: {
+              type: 'object',
+              properties:
+                GenericFormSchemas.reactHelmet.definitions.ReactHelmet
+                  .properties,
+            },
             categoryId: { type: 'string' },
             categoryTitle: { type: 'string' },
             categoryActive: { type: 'boolean' },
@@ -39,6 +46,12 @@ const Categories = () => {
                 type: 'object',
                 required: ['subcategoryTitle'],
                 properties: {
+                  seoSub: {
+                    type: 'object',
+                    properties:
+                      GenericFormSchemas.reactHelmet.definitions.ReactHelmet
+                        .properties,
+                  },
                   subcategoryId: { type: 'string' },
                   subcategoryTitle: { type: 'string' },
                   subcategoryActive: { type: 'boolean' },

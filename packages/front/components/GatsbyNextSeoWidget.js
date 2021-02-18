@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { GenericForm } from '@mtutils/genericform';
-import 'easymde/dist/easymde.min.css';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SeoWidget = ({ formData, onChange }) => {
-  console.log('########## formData-SeoWidget', formData, onChange);
+const GatsbyNextSeoWidget = ({ formData, onChange }) => {
   const classes = useStyles();
   return (
     <>
@@ -213,4 +211,4 @@ const SeoWidget = ({ formData, onChange }) => {
   );
 };
 
-export default SeoWidget;
+export { GatsbyNextSeoWidget };
