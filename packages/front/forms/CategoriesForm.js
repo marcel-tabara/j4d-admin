@@ -21,24 +21,15 @@ const Categories = () => {
           type: 'object',
           required: ['categoryTitle'],
           properties: {
+            categoryId: { type: 'string' },
+            categoryTitle: { type: 'string' },
+            categoryActive: { type: 'boolean' },
             seo: {
               type: 'object',
               properties:
                 GenericFormSchemas.reactHelmet.definitions.ReactHelmet
                   .properties,
             },
-            categoryId: { type: 'string' },
-            categoryTitle: { type: 'string' },
-            categoryActive: { type: 'boolean' },
-            categoryMetaKeywords: { type: 'string' },
-            categoryMetaTitle: { type: 'string', maxLength: 60 },
-            categoryMetaDescription: { type: 'string', maxLength: 160 },
-            categoryMetaRobots: { type: 'string' },
-            categoryMetaViewport: {
-              type: 'string',
-              default: 'width=device-width, initial-scale=1.0',
-            },
-            categoryMetaCharset: { type: 'string', default: 'UTF-8' },
             subcategories: {
               type: 'array',
               uniqueItems: true,
@@ -46,27 +37,15 @@ const Categories = () => {
                 type: 'object',
                 required: ['subcategoryTitle'],
                 properties: {
+                  subcategoryId: { type: 'string' },
+                  subcategoryTitle: { type: 'string' },
+                  subcategoryActive: { type: 'boolean' },
                   seoSub: {
                     type: 'object',
                     properties:
                       GenericFormSchemas.reactHelmet.definitions.ReactHelmet
                         .properties,
                   },
-                  subcategoryId: { type: 'string' },
-                  subcategoryTitle: { type: 'string' },
-                  subcategoryActive: { type: 'boolean' },
-                  subcategoryMetaKeywords: { type: 'string' },
-                  subcategoryMetaTitle: { type: 'string', maxLength: 60 },
-                  subcategoryMetaDescription: {
-                    type: 'string',
-                    maxLength: 160,
-                  },
-                  subcategoryMetaRobots: { type: 'string' },
-                  subcategoryMetaViewport: {
-                    type: 'string',
-                    default: 'width=device-width, initial-scale=1.0',
-                  },
-                  subcategoryMetaCharset: { type: 'string', default: 'UTF-8' },
                 },
               },
             },

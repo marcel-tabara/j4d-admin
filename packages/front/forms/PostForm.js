@@ -23,6 +23,7 @@ import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { GatsbyNextSeoWidget } from '../components/GatsbyNextSeoWidget';
 import { ReactHelmetSeoWidget } from '../components/ReactHelmetSeoWidget';
+import get from 'lodash/get';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,9 @@ const PostForm = ({ id }) => {
   const { keywords } = useKeywords();
   const { record } = usePostForm({ id });
 
+  const postKeywords =
+    get(record, 'seo.meta', []).find((e) => e.name === 'keywords') || [];
+
   const [formData, setFormData] = useState({
     category: record.category || '',
     created: record.created || new Date(),
@@ -60,7 +64,6 @@ const PostForm = ({ id }) => {
     title: record.title || '',
     description: record.description || '',
   });
-  console.log('########## formData', formData);
 
   const catList = categories.map((cat) => cat.categoryId);
   const getSubcategory = (catId) => {
@@ -81,38 +84,74 @@ const PostForm = ({ id }) => {
   };
 
   const upsertKeywords = ({ formData }) => {
-    (formData.postMetaKeywords || []).map((k) => {
-      const sanitizedKeyword = sanitizeString(k.name);
-      const existingKeyword = keywords.find(
-        (e) => sanitizeString(e.name) === sanitizedKeyword,
-      );
+    const seo = get(formData, 'seo.meta', []).find(
+      (e) => e.name === 'keywords',
+    );
 
-      if (!existingKeyword || (existingKeyword.count === 1 && record._id)) {
-        dispatch(
-          keywordActions.handleKeywords({
-            operation: 'create',
-            modelType: 'keyword',
-            info: { name: sanitizedKeyword, count: 1 },
-          }),
+    get(seo, 'content', '')
+      .split(',')
+      .map((k) => {
+        const sanitizedKeyword = sanitizeString(k);
+        const existingKeyword = keywords.find(
+          (e) => sanitizeString(e.name) === sanitizedKeyword,
         );
-      } else {
-        const newCount = record._id ? 0 : 1;
-        dispatch(
-          keywordActions.handleKeywords({
-            operation: 'update',
-            modelType: 'keyword',
-            info: {
-              count: parseInt(existingKeyword.count) + newCount,
-            },
-            query: { _id: existingKeyword._id },
-          }),
-        );
-      }
-    });
+
+        if (!existingKeyword || (existingKeyword.count === 1 && record._id)) {
+          dispatch(
+            keywordActions.handleKeywords({
+              operation: 'create',
+              modelType: 'keyword',
+              info: { name: sanitizedKeyword, count: 1 },
+            }),
+          );
+        } else {
+          const newCount = record._id ? 0 : 1;
+          dispatch(
+            keywordActions.handleKeywords({
+              operation: 'update',
+              modelType: 'keyword',
+              info: {
+                count: parseInt(existingKeyword.count) + newCount,
+              },
+              query: { _id: existingKeyword._id },
+            }),
+          );
+        }
+      });
   };
 
-  const showKeywords = () =>
-    keywords.map((keyword) => keyword.name.concat(', '));
+  const showKeywords = () => get(postKeywords, 'content', '');
+
+  const cleanKeywords = () => {
+    get(postKeywords, 'content', '')
+      .split(',')
+      .map((keyword) => {
+        const data = keywords.find(
+          (e) => sanitizeString(e.name) === sanitizeString(keyword),
+        );
+
+        if (data) {
+          if (data.count >= 2) {
+            dispatch(
+              keywordActions.handleKeywords({
+                operation: 'update',
+                modelType: 'keyword',
+                query: { _id: data._id },
+                info: { count: parseInt(data.count) - 1 },
+              }),
+            );
+          } else {
+            dispatch(
+              keywordActions.handleKeywords({
+                operation: 'deleteOne',
+                modelType: 'keyword',
+                query: { _id: data._id },
+              }),
+            );
+          }
+        }
+      });
+  };
 
   const onChange = (data, type) =>
     setFormData({
@@ -131,13 +170,12 @@ const PostForm = ({ id }) => {
       .trim();
 
   const onSubmit = () => {
-    // const contentState = editorState.getCurrentContent()
-    // if (!record._id) {
-    //   upsertKeywords({ formData })
-    // } else {
-    //   cleanKeywords()
-    //   upsertKeywords({ formData })
-    // }
+    if (!record._id) {
+      upsertKeywords({ formData });
+    } else {
+      cleanKeywords();
+      upsertKeywords({ formData });
+    }
 
     dispatch(
       postActions.handlePosts({
@@ -157,6 +195,7 @@ const PostForm = ({ id }) => {
 
   return (
     <div className={classes.root}>
+      <div>{showKeywords()}</div>
       <div>
         <Accordion key="accordion_cat_subcat_prior">
           <AccordionSummary

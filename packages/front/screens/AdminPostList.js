@@ -17,6 +17,8 @@ import { navigate } from '@reach/router';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useKeywords } from '../hooks/useKeywords';
+import get from 'lodash/get';
+import { sanitizeString } from '../utils/common';
 
 const addNew = () => navigate('/postform');
 
@@ -41,7 +43,7 @@ const AdminPostList = () => {
   //     }),
   //   );
   // }, [posts.length]);
-  console.log('########## posts', posts);
+
   const renderPosts = () => {
     if (posts.length === 0) {
       return (
@@ -63,30 +65,35 @@ const AdminPostList = () => {
 
         const onDelete = async (_id) => {
           const post = posts.find((post) => post._id === _id);
-          const { keywords = [] } = post;
-          keywords.map((keyword) => {
-            const data = allKeywords.find((e) => e.name === keyword.name);
-            if (data) {
-              if (data.count >= 2) {
-                dispatch(
-                  keywordActions.handleKeywords({
-                    operation: 'update',
-                    modelType: 'keyword',
-                    query: { _id: data._id },
-                    info: { count: parseInt(data.count) - 1 },
-                  }),
-                );
-              } else {
-                dispatch(
-                  keywordActions.handleKeywords({
-                    operation: 'deleteOne',
-                    modelType: 'keyword',
-                    query: { _id: data._id },
-                  }),
-                );
+          const postKeywords =
+            get(post, 'seo.meta', []).find((e) => e.name === 'keywords') || '';
+          get(postKeywords, 'content', '')
+            .split(',')
+            .map((keyword) => {
+              const data = allKeywords.find(
+                (e) => e.name === sanitizeString(keyword),
+              );
+              if (data) {
+                if (data.count >= 2) {
+                  dispatch(
+                    keywordActions.handleKeywords({
+                      operation: 'update',
+                      modelType: 'keyword',
+                      query: { _id: data._id },
+                      info: { count: parseInt(data.count) - 1 },
+                    }),
+                  );
+                } else {
+                  dispatch(
+                    keywordActions.handleKeywords({
+                      operation: 'deleteOne',
+                      modelType: 'keyword',
+                      query: { _id: data._id },
+                    }),
+                  );
+                }
               }
-            }
-          });
+            });
           await Promise.all([
             dispatch(
               postActions.handlePosts({

@@ -50,7 +50,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 const PostList = ({ posts }) => {
-  console.log('########## posts-PostList', posts);
   const classes = useStyles();
   const renderPosts = () => {
     return posts.map((post) => {
